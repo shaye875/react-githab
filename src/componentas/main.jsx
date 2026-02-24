@@ -4,7 +4,9 @@ import Timer from './timer'
 
 function Main() {
     const [bombs, setCounts] = useState(5)
-    const [timer, setTimer] = useState("00:00:00");
+    const [timer, setTimer] = useState("00:01:00");
+    const [end, setEnd] = useState(false)
+    const [win, setWin] = useState(false)
     const [randoms, setRandoms] = useState(new Set())
     const [arr, setArr] = useState([])
     function ran() {
@@ -28,6 +30,18 @@ function Main() {
         ran()
         fullArr()
     }, [])
+    if (bombs === 0 && end === false) {
+        setEnd(true)
+        console.log(timer);
+        setWin(true)
+    }
+    console.log(timer);
+    useEffect(()=>{
+             if(timer === "00:00:00"){
+        setEnd(true)
+    }
+    },[timer])
+
     return (
         <div id='main'>
             <div id='header'>
@@ -43,7 +57,7 @@ function Main() {
                         <img src="src\pictutures\Screenshot 2026-02-24 095724.png" alt="" />
                         <p className='withe'>Time Remaining</p>
                     </div>
-                    <Timer props={{ timer, setTimer }} />
+                    <Timer props={{ timer, setTimer, end }} />
                     <h1 className='withe font'>{timer}</h1>
                 </div>
                 <div className='explein'>
@@ -61,20 +75,29 @@ function Main() {
                 {arr.map((str) => {
                     if (str === "x") {
                         return (
-                            <div className='all' onClick={(e)=>{
-                                e.target.className += " bacx"
+                            <div className='all' onClick={(e) => {
+                                if (!end) {
+                                    e.target.className += " bacx"
+                                }
                             }}></div>
                         )
                     } else {
                         return (
-                            <div className='all'  onClick={(e)=>{
-                                setCounts(bombs-1)
-                                e.target.className += " bacb"
+                            <div className='all' onClick={(e) => {
+                                if (!end) {
+                                    end == false && setCounts(bombs - 1)
+                                    e.target.className += " bacb"
+                                }
                             }}></div>
                         )
                     }
                 })}
             </div>
+            <button id='rest' onClick={() => {
+                window.close("http://localhost:5173/")
+                window.open("http://localhost:5173/")
+            }}>Restart Game</button>
+            {end && <div id='end'>{win && <h1 className='font'>you win!!👋👋</h1>}{!win && <h1 className='font'>you lost!!👎👎</h1>}</div>}
         </div>
     )
 }

@@ -1,10 +1,12 @@
 
-import React, {useRef, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 
-const Timer = ({props}) => {
+const Timer = ({ props }) => {
     const Ref = useRef(null);
-    const {timer,setTimer} = props
-    
+    const {setTimer,end } = props
+    useEffect(()=>{
+       clearTimer()
+    },[end])
     const getTimeRemaining = (e) => {
         const total =
             Date.parse(e) - Date.parse(new Date());
@@ -41,16 +43,22 @@ const Timer = ({props}) => {
 
     const clearTimer = (e) => {
         setTimer("00:05:00");
-        if (Ref.current) clearInterval(Ref.current);
+        if(end){
+            setTimer("00:00:00");
+        }
+        if (Ref.current) clearInterval(Ref.current)
         const id = setInterval(() => {
             startTimer(e);
         }, 1000);
         Ref.current = id;
+        if(end){
+            clearInterval(id)
+        }
     };
 
     const getDeadTime = () => {
         let deadline = new Date();
-        deadline.setSeconds(deadline.getSeconds() + 5*60);
+        deadline.setSeconds(deadline.getSeconds() + 5 * 60);
         return deadline;
     };
     useEffect(() => {
