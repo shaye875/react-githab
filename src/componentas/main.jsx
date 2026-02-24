@@ -4,6 +4,13 @@ import Timer from './timer'
 function Main() {
     const [bombs,setCounts] = useState(5)
     const [timer, setTimer] = useState("00:00:00");
+    const [randoms,setRandoms] = useState([])
+    if(randoms.length === 0){
+         for(let i = 0;i <5;i++){
+            randoms.push()
+         }
+    }
+    
   return (
     <div id='main'>
         <div id='header'>
