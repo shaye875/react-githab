@@ -33,6 +33,7 @@ function Main() {
         <div id='ex2'>
             <p className='withe'>Locate and neutraloza all bombs before time runs out.</p>
         </div>
+        <div></div>
     </div>
   )
 }
