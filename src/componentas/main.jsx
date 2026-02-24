@@ -14,8 +14,8 @@ function Main() {
         }
     }
     function fullArr() {
-        while (arr.length === 0) {
-            for (let i = 0; i > 80; i++) {
+        while (arr.length < 60) {
+            for (let i = 0; i < 80; i++) {
                 if (randoms.has(i)) {
                     arr.push("bombe")
                 } else {
@@ -25,11 +25,9 @@ function Main() {
         }
     }
     useEffect(() => {
-        // ran()
-        // fullArr()
+        ran()
+        fullArr()
     }, [])
-    console.log(randoms);
-
     return (
         <div id='main'>
             <div id='header'>
@@ -59,7 +57,24 @@ function Main() {
             <div id='ex2'>
                 <p className='withe'>Locate and neutraloza all bombs before time runs out.</p>
             </div>
-            <div></div>
+            <div id='board'>
+                {arr.map((str) => {
+                    if (str === "x") {
+                        return (
+                            <div className='all' onClick={(e)=>{
+                                e.target.className += " bacx"
+                            }}></div>
+                        )
+                    } else {
+                        return (
+                            <div className='all'  onClick={(e)=>{
+                                setCounts(bombs-1)
+                                e.target.className += " bacb"
+                            }}></div>
+                        )
+                    }
+                })}
+            </div>
         </div>
     )
 }
