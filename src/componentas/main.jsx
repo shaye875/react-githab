@@ -8,6 +8,7 @@ function Main() {
     const [end, setEnd] = useState(false)
     const [win, setWin] = useState(false)
     const [randoms, setRandoms] = useState(new Set())
+    const [rest, setRest] = useState(new Date())
     const [arr, setArr] = useState([])
     function ran() {
         while (randoms.size < 5) {
@@ -26,21 +27,21 @@ function Main() {
             }
         }
     }
-    useEffect(() => {
+    useEffect(() => {  
         ran()
         fullArr()
-    }, [])
+    }, [rest])
     if (bombs === 0 && end === false) {
         setEnd(true)
         console.log(timer);
         setWin(true)
     }
     console.log(timer);
-    useEffect(()=>{
-             if(timer === "00:00:00"){
-        setEnd(true)
-    }
-    },[timer])
+    useEffect(() => {
+        if (timer === "00:00:00") {
+            setEnd(true)
+        }
+    }, [timer])
 
     return (
         <div id='main'>
@@ -57,7 +58,7 @@ function Main() {
                         <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAAWCAYAAAAinad/AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAQ3SURBVDhPTVRdTxtXED27axsbf2AbYz6CsSnQuJWqohaeqkZVI0pREkJbQfMzqqpPVSvxO5CqVjxEbUTbHwCqkgZeUAgvNAjSlA8TQfiIDQbM2mtvz4xByqyu13vv3HPPnJk7xlvvf+qC5rquDjHDMOAzTbi1Ghy3Bo/HU18zLDhVB5ZlcQ0wTUt9a/STOVM2y4c4y4KYgFimgaZICG2JZsSbmtCaTKJKIFMOcQ36mvyu6hATDGX2JiOZdCoVjN36HGN3R1HjkmV5cHxaxDfffoeGhgCqZFWVAy8Pl30yTAFS1EsgMQbM3xoi4RASzXEyjMDvC+ia41TVTxi+aYJjRZOZyXp4roYhf2WcFU9QdSqIRJrw4r8XmJ2dw/Pn/8Lr89b1E9HU6lrLAVa0tWuS/xTIQ52ikSCGbt7E0PAQ3s5eRzQWRUPAr8zFZ39vD3TTA12DEZGg/mckRurdj1wTsurik49vYHz8K0SjUVzYJZydnTIsB42BIAKBRn6fYWtrC/fv/4rcy5cE4z6aZFLMyLx3w61WHHxGJl+OfQH74hxzc3N48mQRr/Ov0dXVhULhGKFgGKOjo+jt7UM+X8BPv/yM7dyOgsiBAmiFmzsn+/r6cO/e1zg9OcHU1BSWl5dh2xfMWBUTExNoaUni0aO/sbKyAr/fj56eXiRbW7G2toYKMy8SaJ35GnwYHh5WAaenp7G9vaWCyuP1erVgr3VcU5BisYiZmd+xtLREsCQGBgc1q1dhmu3t7ZCxurqKzc1NLUJNOxMmbwHJvpPVA4WBbdvM7CyOj4+RzWYRDAZ1Xsulu7tbNwnYFWXZ4BBUWMXjcZ1fX19XP5/Ph5cUP7edQ7CxEYlEQoFknxkOh5Xi0dGRspIQ5R0IBJjZcf1+8NsD1UdMxBYrFAoaXhOvmsrCYZ4z3eKQSLRQcK0WHcXTc8z88Se+/+FH/PXwIRwmwyED3mLYFbvOho8phUZJPJKAvd09Rc1ez8JDwctlnkyHCq/Nq1f7KJUueD/ZBBiiZFeGaZmIxaNK4mB/n2CMhv7mxsYGTlgSrUx1JpNRXVwyFA2kM8ggOjeKhl5m2Id0OoNUKq3S7O7uKktNXKlUwvz8vIo9MjKigqsGBKyyPdT45if1kZ4Gdg0/7twZZSK8WFxcJPOSHqxFG4x1TOZyOXR2dqKtrU3LJJ/Po8DU68XnI+1GNqR5G27dvk2fDjz75xkeP57XSK6yabT1DJKIi0amWa5LOp3W4pT071MPAZbilflUKoVYLKaMFhYWNDQBuapNI9n9oYIJTQl1YGAA/f39CIVCqpWcalFw2y7rJX/6dAk7Ozu6WfUVSS73K1h9A1PLxXK5zB4W4QVP652UjElNHRwc4PDwUGtMWbBhmNKLaPVkcSS7PyBYna5slDd1Zkfi4uXpNenT0qVkjSxkTgUn4zoc+7Lr4n9VLDsQm4qSkgAAAABJRU5ErkJggg==" alt="" />
                         <p className='withe'>Time Remaining</p>
                     </div>
-                    <Timer props={{ timer, setTimer, end }} />
+                    <Timer props={{ timer, setTimer, end ,rest}} />
                     <h1 className='withe font'>{timer}</h1>
                 </div>
                 <div className='explein'>
@@ -94,8 +95,12 @@ function Main() {
                 })}
             </div>
             <button id='rest' onClick={() => {
-                window.close("http://localhost:5173/")
-                window.open("http://localhost:5173/")
+                setArr([])
+                setCounts(5)
+                setEnd(false)
+                setRandoms(new Set())
+                setWin(false)
+                setRest(new Date())
             }}>Restart Game</button>
             {end && <div id='end'>{win && <h1 className='font'>you win!!👋👋</h1>}{!win && <h1 className='font'>you lost!!👎👎</h1>}</div>}
         </div>

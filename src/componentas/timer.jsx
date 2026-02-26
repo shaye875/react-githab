@@ -3,7 +3,7 @@ import React, { useRef, useEffect } from "react";
 
 const Timer = ({ props }) => {
     const Ref = useRef(null);
-    const {setTimer,end } = props
+    const {setTimer,end ,rest} = props
     useEffect(()=>{
        clearTimer()
     },[end])
@@ -24,7 +24,6 @@ const Timer = ({ props }) => {
             seconds,
         };
     };
-
     const startTimer = (e) => {
         let { total, hours, minutes, seconds } =
             getTimeRemaining(e);
@@ -42,7 +41,7 @@ const Timer = ({ props }) => {
     };
 
     const clearTimer = (e) => {
-        setTimer("00:05:00");
+        setTimer("00:02:00")
         if(end){
             setTimer("00:00:00");
         }
@@ -58,15 +57,12 @@ const Timer = ({ props }) => {
 
     const getDeadTime = () => {
         let deadline = new Date();
-        deadline.setSeconds(deadline.getSeconds() + 5 * 60);
+        deadline.setSeconds(deadline.getSeconds() + 2 * 60);
         return deadline;
     };
     useEffect(() => {
         clearTimer(getDeadTime());
-    }, []);
-    const onClickReset = () => {
-        clearTimer(getDeadTime());
-    };
+    }, [rest]);
 };
 
 export default Timer
